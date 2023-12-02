@@ -1,4 +1,5 @@
 import requests
+from exceptions import APIError
 
 
 class Chat:
@@ -6,18 +7,14 @@ class Chat:
         self.api_key = api_key
         self.text = text
         self.model = model
-        # self.temperature = 0.7
-        # self.max_tokens = 50
-        self.session = requests.Session()  # Create a Session object
+        self.session = requests.Session()
 
     def get_response(self):
         params = {
             'api_key': self.api_key,
             'prompt': self.text,
-            # 'temperature': self.temperature,
-            # 'max_tokens': self.max_tokens
         }
-        response = self.session.get(  # Use session.get instead of requests.get
+        response = self.session.get(
             f'https://api.progressiveai.org/v1/{self.model}', params=params)
         try:
             data = response.json()
@@ -26,5 +23,5 @@ class Chat:
             print(f"Response content: {response.content}")
             raise
         if 'error' in data:
-            raise Exception(data['error'])
+            raise APIError(data['error'])
         return data['response']
