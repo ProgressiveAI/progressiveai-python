@@ -14,8 +14,8 @@ class Chat:
         params = {
             'api_key': self.api_key,
             'prompt': self.text,
-            'temperature': self.temperature,
-            'max_tokens': self.max_tokens
+            # 'temperature': self.temperature,
+            # 'max_tokens': self.max_tokens
         }
         response = self.session.get(  # Use session.get instead of requests.get
             f'https://api.progressiveai.org/v1/{self.model}', params=params)
