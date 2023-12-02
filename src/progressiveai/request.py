@@ -1,5 +1,5 @@
 import requests
-from exceptions import APIError
+from .exceptions import APIError
 
 
 class Chat:
