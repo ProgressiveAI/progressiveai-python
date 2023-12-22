@@ -1,3 +1,4 @@
+import json
 import requests
 from .exceptions import APIError
 
@@ -15,9 +16,17 @@ class Chat:
             'prompt': self.text,
         }
         response = self.session.get(
-            f'https://api.progressiveai.org/v1/{self.model}', params=params)
+            f'https://api.progressiveai.org/v1/{self.model}/chat', params=params)
         try:
             data = response.json()
+        except json.JSONDecodeError as e:
+            print(f"JSON decoding error: {e}")
+            print(f"Status code: {response.status_code}")
+            print(f"Response content: {response.content}")
+            raise
+        except requests.RequestException as e:
+            print(f"Request error: {e}")
+            raise
         except Exception as e:
             print(f"Status code: {response.status_code}")
             print(f"Response content: {response.content}")
