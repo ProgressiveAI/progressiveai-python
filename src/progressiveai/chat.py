@@ -23,8 +23,12 @@ class Chat:
         except requests.exceptions.HTTPError as errh:
             if response.status_code == 404:
                 print("The AI Model is unavailable or doesn't exist at all!")
+            elif response.status_code == 524:  # Cloudflare Timeout Error
+                print("The request timed out. Please try again later.")
+            elif response.status_code == 502:
+                print("Oops! The Server failed to return a response!")
             else:
-                print(f"HTTP Error: {errh}")
+                print("HTTP Error: ", errh)
             return None
         except requests.exceptions.ConnectionError as errc:
             print(f"Error Connecting: {errc}")
